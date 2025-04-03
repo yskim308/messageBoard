@@ -7,8 +7,25 @@ const app = express();
 app.use(cors());
 const port = 4000;
 
+const dbPath = "./messages.db";
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("connected to sqllite database");
+  }
+});
+
 app.get("/", (req: Request, res: Response) => {
-  res.send("hello from the backend? succesfully sent a response...");
+  const query: string = "SELECT * FROM messages ORDER BY date DESC";
+  db.all(`${query}`, (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500);
+    } else {
+      res.json({ data: rows });
+    }
+  });
 });
 
 app.listen(port, () => {
