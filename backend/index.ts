@@ -1,6 +1,7 @@
 import express from "express";
 import type { Request, Response } from "express";
 import cors from "cors";
+import sqlite3 from "sqlite3";
 
 const app = express();
 app.use(cors());
