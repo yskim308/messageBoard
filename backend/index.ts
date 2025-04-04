@@ -28,6 +28,19 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
+app.put("/", (req: Request, res: Response) => {
+  const { author, message } = req.body;
+  const query: string = "INSERT INTO messages (author, message), (?, ?)";
+  db.run(query, [author, message], (err) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500);
+    } else {
+      res.status(201);
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
