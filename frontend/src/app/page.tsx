@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Card";
+import Form from "./Form";
 
 export interface Message {
   id: number;
@@ -33,6 +34,7 @@ export default function Home() {
       {messages.map((message) => {
         return <Card message={message} key={message.id} />;
       })}
+      <Form />
     </div>
   );
 }
