@@ -28,7 +28,7 @@ export default function Home() {
     fetchData();
   }, []);
   return (
-    <div className="flex flex-col items-center w-3/5">
+    <div className="flex flex-col items-center md:w-3/5">
       <div className="text-3xl">hello?</div>
       {messages.map((message) => {
         return <Card message={message} key={message.id} />;
