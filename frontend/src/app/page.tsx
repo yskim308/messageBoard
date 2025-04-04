@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Card from "./Card";
 
 export interface Message {
   id: number;
@@ -27,15 +28,10 @@ export default function Home() {
     fetchData();
   }, []);
   return (
-    <div>
+    <div className="flex flex-col items-center w-3/5">
+      <div className="text-3xl">hello?</div>
       {messages.map((message) => {
-        return (
-          <div key={message.id}>
-            <div>{message.author}</div>
-            <div>{message.date}</div>
-            <div>{message.message}</div>
-          </div>
-        );
+        return <Card message={message} key={message.id} />;
       })}
     </div>
   );
