@@ -19,6 +19,8 @@ export default function Form() {
       console.log("form submitted succesfully");
     } catch (error) {
       console.error("uh oh, this are fucked", error);
+    } finally {
+      setFormDetails({ author: "", message: "" });
     }
   };
 
