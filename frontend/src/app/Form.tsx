@@ -6,7 +6,11 @@ interface FormDetails {
   message: string;
 }
 
-export default function Form() {
+interface FormProps {
+  fetchOnSubmit: () => void;
+}
+
+export default function Form({ fetchOnSubmit }: FormProps) {
   const [formDetails, setFormDetails] = useState<FormDetails>({
     author: "",
     message: "",
@@ -15,12 +19,13 @@ export default function Form() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      axios.put("http://localhost:4000/submit", formDetails);
+      await axios.put("http://localhost:4000/submit", formDetails);
       console.log("form submitted succesfully");
-      setFormDetails({ author: "", message: "" });
     } catch (error) {
       console.error("uh oh, this are fucked", error);
     } finally {
+      setFormDetails({ author: "", message: "" });
+      fetchOnSubmit();
     }
   };
 
