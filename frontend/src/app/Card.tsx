@@ -1,4 +1,5 @@
 import type { Message } from "./page";
+import Image from "next/image";
 
 interface CardProps {
   message: Message;
@@ -24,7 +25,15 @@ export default function Card({ message }: CardProps) {
         </div>
       </div>
       <div>{message.message}</div>
-      <div>{message.id}</div>
+      <div className="flex mt-2">
+        <button>
+          <Image src="upvote.svg" alt="up" width={20} height={20} />
+        </button>
+        <div className="text-sm mx-1">{message.votes}</div>
+        <button>
+          <Image src="downvote.svg" alt="down" width={20} height={20} />
+        </button>
+      </div>
     </div>
   );
 }
