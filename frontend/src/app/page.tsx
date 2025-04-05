@@ -36,11 +36,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center md:w-3/5">
-      <div className="text-3xl">hello?</div>
+      <div className="text-3xl">discuss hoes:</div>
+      <Form fetchOnSubmit={reloadOnSubmit} />
       {messages.map((message) => {
         return <Card message={message} key={message.id} />;
       })}
-      <Form fetchOnSubmit={reloadOnSubmit} />
     </div>
   );
 }

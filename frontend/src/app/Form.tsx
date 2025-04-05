@@ -30,7 +30,7 @@ export default function Form({ fetchOnSubmit }: FormProps) {
   };
 
   return (
-    <div className="shadow-xl p-3 rounded-3xl w-full md:w-3/5">
+    <div className="shadow-xl p-3 rounded-3xl w-full md:w-3/5 mb-10">
       <form onSubmit={handleSubmit}>
         <div className="flex-col">
           <div className="mt-2 rounded-3xl p-1">
