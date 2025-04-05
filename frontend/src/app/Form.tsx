@@ -17,10 +17,10 @@ export default function Form() {
     try {
       axios.put("http://localhost:4000/submit", formDetails);
       console.log("form submitted succesfully");
+      setFormDetails({ author: "", message: "" });
     } catch (error) {
       console.error("uh oh, this are fucked", error);
     } finally {
-      setFormDetails({ author: "", message: "" });
     }
   };
 
@@ -36,6 +36,7 @@ export default function Form() {
               type="text"
               placeholder="username"
               autoComplete="off"
+              value={formDetails.author}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setFormDetails({ ...formDetails, author: e.target.value });
               }}
@@ -49,6 +50,7 @@ export default function Form() {
               name="content"
               id="content"
               autoComplete="off"
+              value={formDetails.message}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setFormDetails({ ...formDetails, message: e.target.value });
               }}
