@@ -15,7 +15,7 @@ export default function Form() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      axios.put("http:locahost:4000/", formDetails);
+      axios.put("http://localhost:4000/submit", formDetails);
       console.log("form submitted succesfully");
     } catch (error) {
       console.error("uh oh, this are fucked", error);

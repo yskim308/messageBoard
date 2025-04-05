@@ -5,6 +5,7 @@ import sqlite3 from "sqlite3";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 const port = 4000;
 
 const dbPath = "./messages.db";
@@ -28,15 +29,15 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.put("/", (req: Request, res: Response) => {
+app.put("/submit", (req: Request, res: Response) => {
   const { author, message } = req.body;
-  const query: string = "INSERT INTO messages (author, message), (?, ?)";
+  const query: string = "INSERT INTO messages (author, message) VALUES (?, ?)";
   db.run(query, [author, message], (err) => {
     if (err) {
       console.error(err.message);
-      return res.status(500);
+      return res.status(500).send("DB insert failed");
     } else {
-      res.status(201);
+      res.status(201).send("created");
     }
   });
 });
