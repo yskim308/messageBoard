@@ -30,14 +30,17 @@ export default function Form({ fetchOnSubmit }: FormProps) {
   };
 
   return (
-    <div>
+    <div className="shadow-xl p-3 rounded-3xl w-full md:w-3/5">
       <form onSubmit={handleSubmit}>
         <div className="flex-col">
-          <div>
-            <label htmlFor="username">@: </label>
+          <div className="mt-2 rounded-3xl p-1">
+            <label htmlFor="username" className="ml-1">
+              @:{" "}
+            </label>
             <input
               id="username"
               name="username"
+              className="p-1"
               type="text"
               placeholder="username"
               autoComplete="off"
@@ -48,18 +51,25 @@ export default function Form({ fetchOnSubmit }: FormProps) {
               required
             />
           </div>
-          <div>
-            <input
-              type="text"
+          <hr />
+          <div className="my-2 p-1 border border-blue-400 rounded-md">
+            <textarea
+              className="w-full py-2 px-1 resize-y overflow-y-auto" // Added resize-y and overflow-y-auto
               placeholder="message content"
               name="content"
               id="content"
               autoComplete="off"
               value={formDetails.message}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                // Changed HTMLInputElement to HTMLTextAreaElement
                 setFormDetails({ ...formDetails, message: e.target.value });
               }}
               required
+              rows={1} // Start with one row
+              onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                e.target.style.height = "auto";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
             />
           </div>
         </div>
