@@ -52,7 +52,7 @@ export default function Form({ fetchOnSubmit }: FormProps) {
             />
           </div>
           <hr />
-          <div className="my-2 p-1 border border-blue-400 rounded-md">
+          <div className="my-2 p-1 rounded-md flex-col">
             <textarea
               className="w-full py-2 px-1 resize-y overflow-y-auto" // Added resize-y and overflow-y-auto
               placeholder="message content"
@@ -71,9 +71,13 @@ export default function Form({ fetchOnSubmit }: FormProps) {
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
             />
+            <div className="flex justify-end">
+              <button type="submit" className="mx-3">
+                submit
+              </button>
+            </div>
           </div>
         </div>
-        <button type="submit">submit</button>
       </form>
     </div>
   );
