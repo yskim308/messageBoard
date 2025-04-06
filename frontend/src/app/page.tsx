@@ -38,10 +38,14 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center md:w-3/5">
       <BookDescription />
+      <hr className="w-full" />
+      <h1 className="mt-3">Comments</h1>
       <Form fetchOnSubmit={reloadOnSubmit} />
-      {messages.map((message) => {
-        return <Card message={message} key={message.id} />;
-      })}
+      <div className="h-screen overflow-scroll flex flex-col items-center">
+        {messages.map((message) => {
+          return <Card message={message} key={message.id} />;
+        })}
+      </div>
     </div>
   );
 }
