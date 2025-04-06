@@ -36,17 +36,12 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2">
-      <div>
-        <BookDescription />
-      </div>
-      <div className="flex flex-col items-center">
-        <div className="text-3xl">discuss hoes:</div>
-        <Form fetchOnSubmit={reloadOnSubmit} />
-        {messages.map((message) => {
-          return <Card message={message} key={message.id} />;
-        })}
-      </div>
+    <div className="flex flex-col items-center md:w-3/5">
+      <BookDescription />
+      <Form fetchOnSubmit={reloadOnSubmit} />
+      {messages.map((message) => {
+        return <Card message={message} key={message.id} />;
+      })}
     </div>
   );
 }
