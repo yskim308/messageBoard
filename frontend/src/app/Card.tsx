@@ -1,6 +1,6 @@
 import type { Message } from "./page";
 import Image from "next/image";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface CardProps {
