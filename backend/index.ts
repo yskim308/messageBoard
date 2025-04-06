@@ -42,6 +42,25 @@ app.put("/submit", (req: Request, res: Response) => {
   });
 });
 
+app.post("/vote", (req: Request, res: Response) => {
+  const { isUp, id } = req.body;
+  const voteString: string = isUp ? "votes + 1" : "votes - 1";
+  let query: string;
+  if (isUp) {
+    query = "UPDATE messages SET votes = votes + 1 WHERE id = ?";
+  } else {
+    query = "UPDATE messages SET votes = votes - 1 WHERE id = ?";
+  }
+  db.run(query, [id], (err) => {
+    if (err) {
+      console.log(err.message);
+      return res.status(500).send("DB update failed");
+    } else {
+      return res.status(201).send("votes updated");
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
