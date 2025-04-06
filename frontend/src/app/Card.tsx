@@ -1,6 +1,6 @@
 import type { Message } from "./page";
 import Image from "next/image";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 interface CardProps {
@@ -20,7 +20,10 @@ function dateToString(date: string): string {
 async function handleVote(isUp: boolean, id: number) {
   try {
     await axios.post("http://localhost:4000/vote", { isUp, id });
-  } catch (e) {}
+  } catch (e: unknown) {
+    console.log("post request for upvote failed:");
+    console.log(e);
+  }
 }
 
 export default function Card({ message }: CardProps) {
