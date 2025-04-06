@@ -18,8 +18,10 @@ export default function Form({ fetchOnSubmit }: FormProps) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const backendBaseUrl: string =
+      process.env.NEXT_PUBLIC_EXPRESS_API ?? "http://localhost:4000";
     try {
-      await axios.put("http://localhost:4000/submit", formDetails);
+      await axios.put(`${backendBaseUrl}/submit`, formDetails);
       console.log("form submitted succesfully");
     } catch (error) {
       console.error("uh oh, this are fucked", error);

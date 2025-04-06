@@ -16,9 +16,11 @@ export interface Message {
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [reload, setReload] = useState<boolean>(false);
+  const backendBaseUrl: string =
+    process.env.NEXT_PUBLIC_EXPRESS_API ?? "http://localhost:4000";
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/");
+      const response = await axios.get(`${backendBaseUrl}/`);
       const messageResponse: Message[] = response.data.data;
       setMessages(messageResponse);
       console.log(messageResponse);

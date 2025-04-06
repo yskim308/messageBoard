@@ -18,8 +18,10 @@ function dateToString(date: string): string {
 }
 
 async function handleVote(isUp: boolean, id: number) {
+  const backendBaseUrl: string =
+    process.env.NEXT_PUBLIC_EXPRESS_API ?? "http://localhost:4000";
   try {
-    await axios.post("http://localhost:4000/vote", { isUp, id });
+    await axios.post(`${backendBaseUrl}/vote`, { isUp, id });
   } catch (e: unknown) {
     console.log("post request for upvote failed:");
     console.log(e);
