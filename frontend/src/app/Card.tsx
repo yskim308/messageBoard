@@ -47,15 +47,21 @@ export default function Card({ message }: CardProps) {
             setVotes((prev) => prev + 1);
             handleVote(true, message.id);
           }}
+          className="hover:bg-green-300 rounded-xl"
         >
           <Image src="upvote.svg" alt="up" width={20} height={20} />
         </button>
-        <div className="text-sm mx-1">{votes}</div>
+        <div
+          className={`text-sm font-semibold mx-1 ${votes < 0 ? "text-red-500" : "text-green-700"}`}
+        >
+          {votes}
+        </div>
         <button
           onClick={() => {
             setVotes((prev) => prev - 1);
             handleVote(false, message.id);
           }}
+          className="hover:bg-red-300 rounded-xl"
         >
           <Image src="downvote.svg" alt="down" width={20} height={20} />
         </button>
