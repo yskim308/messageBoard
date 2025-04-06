@@ -22,8 +22,12 @@ export default function Home() {
       const messageResponse: Message[] = response.data.data;
       setMessages(messageResponse);
       console.log(messageResponse);
-    } catch (e: any) {
-      console.log(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      } else {
+        console.log("unknown error");
+      }
     }
   };
 
