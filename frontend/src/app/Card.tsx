@@ -1,5 +1,7 @@
 import type { Message } from "./page";
 import Image from "next/image";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 interface CardProps {
   message: Message;
@@ -15,7 +17,18 @@ function dateToString(date: string): string {
   return dateObj.toLocaleDateString("en-US", options);
 }
 
+async function handleVote(isUp: boolean, id: number) {
+  try {
+    await axios.post("http://localhost:4000/vote", { isUp, id });
+  } catch (e) {}
+}
+
 export default function Card({ message }: CardProps) {
+  const [votes, setVotes] = useState<number>(0);
+  useEffect(() => {
+    setVotes(message.votes);
+  }, [message]);
+
   return (
     <div className="flex flex-col w-full hover:bg-gray-100 px-3 py-6 rounded-xl">
       <div className="flex">
@@ -26,11 +39,21 @@ export default function Card({ message }: CardProps) {
       </div>
       <div>{message.message}</div>
       <div className="flex mt-2">
-        <button>
+        <button
+          onClick={() => {
+            setVotes((prev) => prev + 1);
+            handleVote(true, message.id);
+          }}
+        >
           <Image src="upvote.svg" alt="up" width={20} height={20} />
         </button>
-        <div className="text-sm mx-1">{message.votes}</div>
-        <button>
+        <div className="text-sm mx-1">{votes}</div>
+        <button
+          onClick={() => {
+            setVotes((prev) => prev - 1);
+            handleVote(false, message.id);
+          }}
+        >
           <Image src="downvote.svg" alt="down" width={20} height={20} />
         </button>
       </div>
