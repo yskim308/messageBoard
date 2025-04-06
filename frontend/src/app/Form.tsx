@@ -30,17 +30,17 @@ export default function Form({ fetchOnSubmit }: FormProps) {
   };
 
   return (
-    <div className="shadow-xl p-3 rounded-3xl w-full md:w-3/5 mb-10">
+    <div className="shadow-xl px-3 pb-3 rounded-3xl w-full  mb-10">
       <form onSubmit={handleSubmit}>
         <div className="flex-col">
-          <div className="mt-2 rounded-3xl p-1">
-            <label htmlFor="username" className="ml-1">
+          <div className="mt-2 rounded-3xl p-1 flex">
+            <label htmlFor="username" className="ml-1 self-center">
               @:{" "}
             </label>
             <input
               id="username"
               name="username"
-              className="p-1"
+              className="p-1 flex-grow font-bold"
               type="text"
               placeholder="username"
               autoComplete="off"

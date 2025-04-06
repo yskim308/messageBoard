@@ -39,7 +39,7 @@ export default function Home() {
     <div className="flex flex-col items-center md:w-3/5">
       <BookDescription />
       <hr className="w-full" />
-      <h1 className="mt-3">Comments</h1>
+      <h1 className="mt-10">Comments</h1>
       <Form fetchOnSubmit={reloadOnSubmit} />
       <div className="h-screen overflow-scroll flex flex-col items-center">
         {messages.map((message) => {
