@@ -7,6 +7,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <title>Murakami Message</title>
       <body className="flex justify-center">{children}</body>
     </html>
   );
