@@ -28,7 +28,7 @@ export default function BookDescription() {
         <div className="font-bold text-3xl">Norwegian Wood</div>
         <div className="font-medium">Haruki Muarkami</div>
       </div>
-      <div className="font-thin my-3 px-5">{text}</div>
+      <div className="font-thin my-3 px-5 text-sm md:text-lg">{text}</div>
     </div>
   );
 }

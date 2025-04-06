@@ -42,7 +42,7 @@ export default function Card({ message }: CardProps) {
           {dateToString(message.date)}
         </div>
       </div>
-      <div>{message.message}</div>
+      <div className="text-sm md:text-lg">{message.message}</div>
       <div className="flex mt-2">
         <button
           onClick={() => {
