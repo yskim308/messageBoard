@@ -23,7 +23,9 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${backendBaseUrl}/`);
+        const response = await axios.get(
+          `${backendBaseUrl}/?orderBy=${sortBy}`,
+        );
         const messageResponse: Message[] = response.data.data;
         setMessages(messageResponse);
         console.log(messageResponse);

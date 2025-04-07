@@ -18,7 +18,14 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 app.get("/", (req: Request, res: Response) => {
-  const query: string = "SELECT * FROM messages ORDER BY date DESC";
+  const orderBy = req.query.orderBy as "date" | "vote" | undefined;
+  let query: string;
+  if (orderBy === "vote") {
+    query = "SELECT * FROM messages ORDER BY votes DESC;";
+  } else {
+    query = "SELECT * FROM messages ORDER BY date DESC;";
+  }
+
   db.all(`${query}`, (err, rows) => {
     if (err) {
       console.error(err.message);
