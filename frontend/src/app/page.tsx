@@ -55,12 +55,15 @@ export default function Home() {
       <h1 className="mt-10">Comments</h1>
       <Form fetchOnSubmit={reloadOnSubmit} />
       <div>
-        <label htmlFor="sortBy">order by:</label>
+        <label htmlFor="sortBy" className="mr-2">
+          order by:
+        </label>
         <select
           name="sortBy"
           id="sortBy"
           value={sortBy}
           onChange={handleSortByChange}
+          className="font-bold"
         >
           <option value="date">date</option>
           <option value="vote">vote</option>
