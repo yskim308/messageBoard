@@ -4,7 +4,21 @@ import cors from "cors";
 import sqlite3 from "sqlite3";
 
 const app = express();
-app.use(cors());
+const allowedOrigins = ["http://localhost:3000"];
+const corsOptions = {
+  origin: (
+    origin: string | undefined,
+    callback: (error: Error | null, allow?: boolean) => void,
+  ) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 const port = 4000;
 
