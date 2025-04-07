@@ -9,7 +9,11 @@
   "peerDependencies": {
     "typescript": "^5"
   },
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
