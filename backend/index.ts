@@ -6,7 +6,7 @@ import sqlite3 from "sqlite3";
 const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://message-board-beta.vercel.app/",
+  "https://message-board-beta.vercel.app",
 ];
 const corsOptions = {
   origin: (
