@@ -4,6 +4,7 @@ import axios from "axios";
 import Card from "./Card";
 import Form from "./Form";
 import BookDescription from "./Description";
+import Image from "next/image";
 
 export interface Message {
   id: number;
@@ -17,6 +18,7 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [reload, setReload] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<"date" | "vote">("date");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const backendBaseUrl: string =
     process.env.NEXT_PUBLIC_EXPRESS_API ?? "http://localhost:4000";
@@ -27,8 +29,8 @@ export default function Home() {
           `${backendBaseUrl}/?orderBy=${sortBy}`,
         );
         const messageResponse: Message[] = response.data.data;
+        setLoading(false);
         setMessages(messageResponse);
-        console.log(messageResponse);
       } catch (e: unknown) {
         if (e instanceof Error) {
           console.log(e.message);
@@ -69,7 +71,24 @@ export default function Home() {
           <option value="vote">vote</option>
         </select>
       </div>
-      <div className="h-screen overflow-scroll flex flex-col items-center">
+      <div className={`${loading ? "" : "hidden"} flex flex-col items-center`}>
+        <Image
+          src="/loading.gif"
+          alt="loading"
+          width={20}
+          height={20}
+          className="w-12 my-5 flex justify-center"
+        />
+        <div className="flex justify-center p-5">
+          <p className="text-sm font-thin">
+            Comments are loading. It may take up to 50 seconds. The backend is
+            hosted on a free instance that spins down after inactivity
+          </p>
+        </div>
+      </div>
+      <div
+        className={`h-screen overflow-scroll flex flex-col items-center ${loading ? "hidden" : ""}}`}
+      >
         {messages.map((message) => {
           return <Card message={message} key={message.id} />;
         })}
