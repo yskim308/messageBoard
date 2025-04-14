@@ -1,7 +1,7 @@
 import express from "express";
 import type { Request, Response } from "express";
 import cors from "cors";
-import sqlite3 from "sqlite3";
+import { Pool } from "pg";
 
 const app = express();
 const allowedOrigins = [
@@ -25,13 +25,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 const port = 4000;
 
-const dbPath = "./messages.db";
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("connected to sqllite database");
-  }
+const pool = new Pool({
+  user: "your_user", // Replace with your PostgreSQL user
+  host: "your_host", // Replace with your PostgreSQL host
+  database: "your_database", // Replace with your PostgreSQL database
+  password: "your_password", // Replace with your PostgreSQL password
+  port: 5432, // Default PostgreSQL port
 });
 
 app.get("/", (req: Request, res: Response) => {
