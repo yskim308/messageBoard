@@ -26,14 +26,14 @@ app.use(express.json());
 const port = 4000;
 
 const pool = new Pool({
-  user: "your_user", // Replace with your PostgreSQL user
-  host: "your_host", // Replace with your PostgreSQL host
-  database: "your_database", // Replace with your PostgreSQL database
-  password: "your_password", // Replace with your PostgreSQL password
-  port: 5432, // Default PostgreSQL port
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: parseInt(process.env.PG_PORT || "5432"),
 });
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", async (req: Request, res: Response) => {
   const orderBy = req.query.orderBy as "date" | "vote" | undefined;
   let query: string;
   if (orderBy === "vote") {
@@ -41,47 +41,44 @@ app.get("/", (req: Request, res: Response) => {
   } else {
     query = "SELECT * FROM messages ORDER BY date DESC;";
   }
-
-  db.all(`${query}`, (err, rows) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500);
-    } else {
-      res.json({ data: rows });
-    }
-  });
+  try {
+    const result = await pool.query(query);
+    res.json({ data: result.rows });
+  } catch (e: unknown) {
+    console.error(e);
+    res.status(500).send("Database query failed");
+  }
 });
 
-app.put("/submit", (req: Request, res: Response) => {
+app.put("/submit", async (req: Request, res: Response) => {
   const { author, message } = req.body;
-  const query: string = "INSERT INTO messages (author, message) VALUES (?, ?)";
-  db.run(query, [author, message], (err) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send("DB insert failed");
-    } else {
-      res.status(201).send("created");
-    }
-  });
+  const query: string =
+    "INSERT INTO messages (author, message) VALUES ($1, $2)";
+  try {
+    await pool.query(query, [author, message]);
+    res.status(201).send("message created");
+  } catch (e: unknown) {
+    console.error(e);
+    res.status(500).send("database insert failed");
+  }
 });
 
-app.post("/vote", (req: Request, res: Response) => {
+app.post("/vote", async (req: Request, res: Response) => {
   const { isUp, id } = req.body;
-  const voteString: string = isUp ? "votes + 1" : "votes - 1";
   let query: string;
   if (isUp) {
-    query = "UPDATE messages SET votes = votes + 1 WHERE id = ?";
+    query = "UPDATE messages SET votes = votes + 1 WHERE id = $1";
   } else {
-    query = "UPDATE messages SET votes = votes - 1 WHERE id = ?";
+    query = "UPDATE messages SET votes = votes - 1 WHERE id = $1";
   }
-  db.run(query, [id], (err) => {
-    if (err) {
-      console.log(err.message);
-      return res.status(500).send("DB update failed");
-    } else {
-      return res.status(201).send("votes updated");
-    }
-  });
+
+  try {
+    await pool.query(query, [id]);
+    res.status(201).send("votes updated");
+  } catch (e: unknown) {
+    console.error(e);
+    res.status(500).send("vote update failed");
+  }
 });
 
 app.listen(port, () => {
