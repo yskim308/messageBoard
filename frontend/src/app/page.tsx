@@ -87,7 +87,7 @@ export default function Home() {
         </div>
       </div>
       <div
-        className={`h-screen overflow-scroll flex flex-col items-center ${loading ? "hidden" : ""}}`}
+        className={`h-screen overflow-scroll flex flex-col items-center w-full ${loading ? "hidden" : ""}}`}
       >
         {messages.map((message) => {
           return <Card message={message} key={message.id} />;
