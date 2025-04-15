@@ -33,7 +33,7 @@ app.get("/", async (req: Request, res: Response) => {
   try {
     let result;
     if (orderBy === "vote") {
-      result = await sql`SELECT * FROM messsages ORDER BY votes DESC`;
+      result = await sql`SELECT * FROM messages ORDER BY votes DESC`;
     } else {
       result = await sql`SELECT * FROM messages ORDER BY date DESC;`;
     }
