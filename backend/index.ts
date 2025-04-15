@@ -1,13 +1,16 @@
 import express from "express";
 import type { Request, Response } from "express";
 import cors from "cors";
-import { Pool } from "pg";
+import { neon } from "@neondatabase/serverless";
+
+const sql = neon(process.env.DATABASE_URL || "");
 
 const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://message-board-beta.vercel.app",
 ];
+
 const corsOptions = {
   origin: (
     origin: string | undefined,
@@ -25,14 +28,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 const port = 4000;
 
-const pool = new Pool({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: parseInt(process.env.PG_PORT || "5432"),
-});
-
 app.get("/", async (req: Request, res: Response) => {
   const orderBy = req.query.orderBy as "date" | "vote" | undefined;
   let query: string;
@@ -41,9 +36,10 @@ app.get("/", async (req: Request, res: Response) => {
   } else {
     query = "SELECT * FROM messages ORDER BY date DESC;";
   }
+
   try {
-    const result = await pool.query(query);
-    res.json({ data: result.rows });
+    const result = await sql`${query}`;
+    res.json({ data: result });
   } catch (e: unknown) {
     console.error(e);
     res.status(500).send("Database query failed");
@@ -52,10 +48,9 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.put("/submit", async (req: Request, res: Response) => {
   const { author, message } = req.body;
-  const query: string =
-    "INSERT INTO messages (author, message) VALUES ($1, $2)";
+  const query: string = `INSERT INTO messages (author, message) VALUES (${author}, ${message})`;
   try {
-    await pool.query(query, [author, message]);
+    await sql`${query}`;
     res.status(201).send("message created");
   } catch (e: unknown) {
     console.error(e);
@@ -67,13 +62,13 @@ app.post("/vote", async (req: Request, res: Response) => {
   const { isUp, id } = req.body;
   let query: string;
   if (isUp) {
-    query = "UPDATE messages SET votes = votes + 1 WHERE id = $1";
+    query = `UPDATE messages SET votes = votes + 1 WHERE id = ${id}`;
   } else {
-    query = "UPDATE messages SET votes = votes - 1 WHERE id = $1";
+    query = `UPDATE messages SET votes = votes - 1 WHERE id = ${id}`;
   }
 
   try {
-    await pool.query(query, [id]);
+    await sql`${query}`;
     res.status(201).send("votes updated");
   } catch (e: unknown) {
     console.error(e);

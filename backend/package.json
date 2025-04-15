@@ -12,6 +12,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/pg": "^8.11.12",
