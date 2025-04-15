@@ -30,27 +30,24 @@ const port = 4000;
 
 app.get("/", async (req: Request, res: Response) => {
   const orderBy = req.query.orderBy as "date" | "vote" | undefined;
-  let query: string;
-  if (orderBy === "vote") {
-    query = "SELECT * FROM messages ORDER BY votes DESC;";
-  } else {
-    query = "SELECT * FROM messages ORDER BY date DESC;";
-  }
-
   try {
-    const result = await sql`${query}`;
+    let result;
+    if (orderBy === "vote") {
+      result = sql`SELECT * FROM messsages ORDER BY votes DESC`;
+    } else {
+      result = sql`SELECT * FROM messages ORDER BY date DESC;`;
+    }
     res.json({ data: result });
   } catch (e: unknown) {
     console.error(e);
-    res.status(500).send("Database query failed");
+    res.status(500).send("database query failed");
   }
 });
 
 app.put("/submit", async (req: Request, res: Response) => {
   const { author, message } = req.body;
-  const query: string = `INSERT INTO messages (author, message) VALUES (${author}, ${message})`;
   try {
-    await sql`${query}`;
+    await sql`INSERT INTO messages (author, message) VALUES (${author}, ${message})`;
     res.status(201).send("message created");
   } catch (e: unknown) {
     console.error(e);
@@ -60,15 +57,12 @@ app.put("/submit", async (req: Request, res: Response) => {
 
 app.post("/vote", async (req: Request, res: Response) => {
   const { isUp, id } = req.body;
-  let query: string;
-  if (isUp) {
-    query = `UPDATE messages SET votes = votes + 1 WHERE id = ${id}`;
-  } else {
-    query = `UPDATE messages SET votes = votes - 1 WHERE id = ${id}`;
-  }
-
   try {
-    await sql`${query}`;
+    if (isUp) {
+      await sql`UPDATE messages SET votes = votes + 1 WHERE id = ${id}`;
+    } else {
+      await sql`UPDATE messages SET votes = votes - 1 WHERE id = ${id}`;
+    }
     res.status(201).send("votes updated");
   } catch (e: unknown) {
     console.error(e);
