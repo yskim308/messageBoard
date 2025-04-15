@@ -33,9 +33,9 @@ app.get("/", async (req: Request, res: Response) => {
   try {
     let result;
     if (orderBy === "vote") {
-      result = sql`SELECT * FROM messsages ORDER BY votes DESC`;
+      result = await sql`SELECT * FROM messsages ORDER BY votes DESC`;
     } else {
-      result = sql`SELECT * FROM messages ORDER BY date DESC;`;
+      result = await sql`SELECT * FROM messages ORDER BY date DESC;`;
     }
     res.json({ data: result });
   } catch (e: unknown) {
